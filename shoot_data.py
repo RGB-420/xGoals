@@ -1,112 +1,150 @@
+from pathlib import Path
 import json
 import pandas as pd
 import numpy as np
+import logging
+from functools import lru_cache
 
+# ----------------- CONFIGURACIÓN -----------------
+# Ruta al fichero JSON que quieres procesar
+JSON_FILE = Path("open-data-master/data/events/9880.json")
+# Ruta al CSV de salida (opcional)
+OUTPUT_CSV = Path("shots_9880.csv")
 
-def extract_shots_from_match(json_path):
-    """Extrae tiros de un partido StatsBomb desde un JSON y devuelve un DataFrame limpio."""
-    with open(json_path, 'r', encoding='utf-8') as f:
-        events = json.load(f)
-    df_events = pd.json_normalize(events, sep='_')
+# Configuración de logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
+logger = logging.getLogger(__name__)
+# -------------------------------------------------
 
-    # Filtrar solo tiros y columnas relevantes
-    relevant_columns = [
+def load_events(json_path: Path) -> pd.DataFrame:
+    """
+    Carga eventos desde un JSON y devuelve un DataFrame normalizado.
+    """
+    try:
+        data = json.loads(json_path.read_text(encoding='utf-8'))
+        df = pd.json_normalize(data, sep='_')
+        logger.info(f"Cargados {len(df)} eventos desde {json_path.name}")
+        return df
+    except Exception as e:
+        logger.error(f"Error cargando eventos {json_path}: {e}")
+        return pd.DataFrame()
+
+@lru_cache(maxsize=None)
+def compute_metrics(location: tuple[float, float]) -> tuple[float, float]:
+    """
+    Calcula distancia y ángulo a portería para una ubicación dada.
+    """
+    goal_x, goal_y = 120, 40
+    goal_width = 7.32
+    try:
+        x, y = location
+        distance = np.hypot(goal_x - x, goal_y - y)
+        a = abs(goal_y - y)
+        b = goal_x - x
+        left = np.arctan2((goal_width/2) - a, b)
+        right = np.arctan2((goal_width/2) + a, b)
+        angle = abs(left - right)
+        return distance, angle
+    except Exception:
+        return np.nan, np.nan
+
+def extract_shots(df_events: pd.DataFrame) -> pd.DataFrame:
+    """
+    Filtra tiros y columnas relevantes, calculando distancias y ángulos.
+    """
+    shot_df = df_events.query("type_name == 'Shot'").copy()
+    cols = [
         'id', 'index', 'period', 'minute', 'second', 'possession',
         'play_pattern_id', 'location', 'under_pressure',
         'shot_key_pass_id', 'shot_body_part_id', 'shot_type_id',
         'shot_outcome_id', 'shot_technique_id', 'shot_first_time', 'shot_aerial_won'
     ]
-    df_shots = df_events[df_events['type_name'] == 'Shot'].copy()
-    df_shots = df_shots[relevant_columns]
-    df_shots.dropna(axis=1, how="all", inplace=True)
-    df_shots.reset_index(drop=True, inplace=True)
-    return df_shots
+    shot_df = shot_df.loc[:, shot_df.columns.intersection(cols)]
+    metrics = shot_df['location'].apply(
+        lambda loc: compute_metrics(tuple(loc) if isinstance(loc, list) else (np.nan, np.nan))
+    )
+    shot_df[['distance_to_goal', 'angle_to_goal']] = pd.DataFrame(
+        metrics.tolist(), index=shot_df.index
+    )
+    shot_df.dropna(axis=1, how='all', inplace=True)
+    return shot_df.reset_index(drop=True)
 
-
-def add_distance_and_angle(df):
-    """Calcula distancia y ángulo a portería para cada tiro."""
-    goal_x, goal_y = 120, 40
-    goal_width = 7.32
-
-    def compute_metrics(loc):
-        if isinstance(loc, list) and len(loc) == 2:
-            x, y = loc
-            distance = np.hypot(goal_x - x, goal_y - y)
-            a = abs(goal_y - y)
-            b = goal_x - x
-            left_post = np.arctan2((goal_width / 2) - a, b)
-            right_post = np.arctan2((goal_width / 2) + a, b)
-            angle = abs(left_post - right_post)
-            return pd.Series([distance, angle])
-        return pd.Series([np.nan, np.nan])
-
-    df[['distance_to_goal', 'angle_to_goal']] = df['location'].apply(compute_metrics)
-    return df
-
-
-def fill_boolean_na(df):
-    """Rellena NaN en columnas booleanas con False."""
-    boolean_columns = [
-        "under_pressure", "shot_first_time", "shot_aerial_won",
-        "key_under_pressure", "key_pass_cross", "key_pass_cut_back", "key_pass_switch"
-    ]
-    for col in boolean_columns:
-        if col in df.columns:
-            df[col] = df[col].fillna(False).astype(bool)
-    return df
-
-
-def pass_data(json_path, df):
-    """Añade datos del pase previo al DataFrame de tiros."""
-    with open(json_path, 'r', encoding='utf-8') as f:
-        events = json.load(f)
-    df_events = pd.json_normalize(events, sep='_')
-
-    df_pass = df_events[df_events['type_name'] == 'Pass'].copy()
-    relevant_columns = [
+def extract_passes(df_events: pd.DataFrame) -> pd.DataFrame:
+    """
+    Filtra pases y renombra columnas para merge con tiros.
+    """
+    pass_df = df_events.query("type_name == 'Pass'").copy()
+    cols = [
         'id', 'pass_length', 'pass_angle', 'under_pressure',
         'pass_height_id', 'pass_cross', 'pass_cut_back',
         'pass_switch', 'pass_body_part_id'
     ]
-    df_pass = df_pass[relevant_columns]
-    df_pass.rename(columns=lambda x: f"key_{x}" if x != "id" else "shot_key_pass_id", inplace=True)
-
-    df = df.merge(df_pass, on='shot_key_pass_id', how='left')
-    df['has_key_pass'] = df['shot_key_pass_id'].notnull().astype(bool)
-    return df
-
-
-def add_possession_duration(json_path, df):
-    """Añade la duración de la posesión para cada tiro."""
-    def timestamp_to_seconds(ts):
-        h, m, s = ts.split(':')
-        return int(h) * 3600 + int(m) * 60 + float(s)
-
-    with open(json_path, 'r', encoding='utf-8') as f:
-        events = json.load(f)
-    df_events = pd.json_normalize(events, sep='_')
-
-    df_events['timestamp_sec'] = df_events['timestamp'].apply(timestamp_to_seconds)
-    possession_times = df_events.groupby('possession')['timestamp_sec'].agg(['min', 'max'])
-    possession_times['possession_duration'] = possession_times['max'] - possession_times['min']
-
-    df = df.merge(
-        possession_times[['possession_duration']],
-        left_on='possession',
-        right_index=True,
-        how='left'
+    pass_df = pass_df.loc[:, pass_df.columns.intersection(cols)]
+    pass_df.rename(
+        columns={
+            'id': 'shot_key_pass_id',
+            **{c: f"key_{c}" for c in cols if c != 'id'}
+        }, inplace=True
     )
+    return pass_df
+
+def compute_possession_duration(df_events: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calcula la duración de cada posesión en segundos.
+    """
+    if 'timestamp' not in df_events.columns:
+        logger.warning("No se encontró columna 'timestamp', se omite posesión")
+        return pd.DataFrame()
+    ts = df_events['timestamp'].str.split(':', expand=True)
+    df_events['timestamp_sec'] = (
+        ts[0].astype(int)*3600 + ts[1].astype(int)*60 + ts[2].astype(float)
+    )
+    duration = (
+        df_events.groupby('possession')['timestamp_sec']
+        .agg(possession_duration=lambda x: x.max() - x.min())
+        .reset_index()
+    )
+    return duration
+
+def fill_booleans(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
+    """
+    Rellena NaN en columnas booleanas con False.
+    """
+    for col in cols:
+        if col in df:
+            df[col] = df[col].fillna(False).astype(bool)
     return df
 
+def process_match(json_path: Path, output_csv: Path = None) -> pd.DataFrame:
+    """
+    Pipeline completo para procesar un partido y generar un DataFrame de tiros.
+    """
+    df_events = load_events(json_path)
+    if df_events.empty:
+        return df_events
+    df_shots = extract_shots(df_events)
+    df_passes = extract_passes(df_events)
+    df_duration = compute_possession_duration(df_events)
+    df = (
+        df_shots
+        .merge(df_passes, on='shot_key_pass_id', how='left')
+        .merge(df_duration, on='possession', how='left')
+    )
+    boolean_cols = [
+        'under_pressure', 'shot_first_time', 'shot_aerial_won',
+        'key_under_pressure', 'key_pass_cross', 'key_pass_cut_back', 'key_pass_switch'
+    ]
+    df = fill_booleans(df, boolean_cols)
+    if output_csv:
+        df.to_csv(output_csv, index=False)
+        logger.info(f"Guardado {len(df)} tiros en {output_csv}")
+    return df
 
-# --------- MAIN EXECUTION ---------
-if __name__ == "__main__":
-    json_file = "open-data-master/data/events/9880.json"
-    shots_df = extract_shots_from_match(json_file)
-    shots_df = add_distance_and_angle(shots_df)
-    shots_df = pass_data(json_file, shots_df)
-    shots_df = add_possession_duration(json_file, shots_df)
-    shots_df = fill_boolean_na(shots_df)
-
-    print(shots_df.isna().sum().sort_values(ascending=False))
-    shots_df.to_csv("shots_9880.csv", index=False)
+# --------- EJECUCIÓN DIRECTA ---------
+if __name__ == '__main__':
+    result = process_match(JSON_FILE, OUTPUT_CSV)
+    print(result.head())
