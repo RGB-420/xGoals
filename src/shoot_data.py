@@ -6,10 +6,12 @@ import logging
 from functools import lru_cache
 
 # ----------------- CONFIGURACIÓN -----------------
-# Ruta al fichero JSON que quieres procesar
-JSON_FILE = Path("open-data-master/data/events/9880.json")
-# Ruta al CSV de salida (opcional)
-OUTPUT_CSV = Path("output/csv/shots_9880.csv")
+# Ruta al CSV con los paths de todos los JSON
+MATCH_LIST_CSV = Path("output/csv/complete_matches.csv")
+
+# Ruta al único CSV de salida
+OUTPUT_CSV = Path("output/csv/all_shots.csv")
+OUTPUT_CSV.parent.mkdir(parents=True, exist_ok=True)
 
 # Configuración de logging
 logging.basicConfig(
@@ -144,7 +146,49 @@ def process_match(json_path: Path, output_csv: Path = None) -> pd.DataFrame:
         logger.info(f"Guardado {len(df)} tiros en {output_csv}")
     return df
 
+
+def process_all_matches(match_list_csv: Path, output_csv: Path) -> pd.DataFrame:
+    """
+    Procesa todos los partidos listados en un CSV y guarda los tiros de cada uno.
+    """
+    all_shots = []  # Para concatenar todos los tiros
+    try:
+        # Cargar la lista de partidos
+        matches_df = pd.read_csv(match_list_csv)
+        if 'event_file' not in matches_df.columns:
+            logger.error(f"El CSV debe tener una columna 'event_file' con las rutas a los JSON")
+            return pd.DataFrame()
+
+        logger.info(f"Procesando {len(matches_df)} partidos...")
+
+        for idx, row in matches_df.iterrows():
+            json_path = Path(row['event_file'])
+            if not json_path.exists():
+                logger.warning(f"El fichero {json_path} no existe, se omite.")
+                continue
+
+            logger.info(f"[{idx+1}/{len(matches_df)}] Procesando {json_path.name}...")
+            shots_df = process_match(json_path)
+
+            if not shots_df.empty:
+                shots_df['match_file'] = json_path.name  # Identificador del partido
+                all_shots.append(shots_df)
+
+        if all_shots:
+            # Concatenar todos los tiros en un único DataFrame
+            all_shots_df = pd.concat(all_shots, ignore_index=True)
+            all_shots_df.to_csv(output_csv, index=False)
+            logger.info(f"Guardados todos los tiros combinados en {output_csv}")
+            return all_shots_df
+        else:
+            logger.warning("No se extrajeron tiros de ningún partido.")
+            return pd.DataFrame()
+
+    except Exception as e:
+        logger.error(f"Error procesando partidos: {e}")
+        return pd.DataFrame()
+
 # --------- EJECUCIÓN DIRECTA ---------
 if __name__ == '__main__':
-    result = process_match(JSON_FILE, OUTPUT_CSV)
-    print(result.head())
+    result_df = process_all_matches(MATCH_LIST_CSV, OUTPUT_CSV)
+    print(result_df.head())
