@@ -7,7 +7,7 @@ import time
 
 # Columns for data (removed key_pass_length and key_pass_angle)
 columns = [
-    'match', 'period', 'minute', 'second', 'shot_location', 'pass_location', 'gk_location',
+    'match', 'team', 'period', 'minute', 'second', 'shot_location', 'pass_location', 'gk_location',
     'under_pressure', 'play_pattern_id', 'shot_key_pass_id', 'shot_type_id',
     'shot_technique_id', 'shot_outcome_id', 'shot_body_part_id', 'players_in_range',
     'shot_first_time', 'shot_aerial_won', 'key_pass_height_id', 'key_pass_body_part_id',
@@ -47,7 +47,7 @@ class MatchRecorder(tk.Tk):
         style = ttk.Style(self)
         style.theme_use('clam')
         style.configure('Treeview', rowheight=24, font=('Arial', 10))
-        style.configure('Treeview.Heading', font=('Arial', 11, 'bold'))
+        style.configure('Treeview.Heading', font=('Arial', 12, 'bold'))
         style.configure('TLabel', font=('Arial', 10))
         style.configure('TButton', font=('Arial', 10))
         style.configure('TEntry', font=('Arial', 10))
@@ -107,6 +107,13 @@ class MatchRecorder(tk.Tk):
         e.grid(row=0, column=1)
         self.widgets['match'] = e
 
+        scoring_panel = ttk.LabelFrame(top_frame, text='Scoring Team')
+        scoring_panel.pack(side=tk.LEFT, fill=tk.X, padx=5, pady=5)
+        ttk.Label(scoring_panel, text='Team').grid(row=0, column=0, sticky='w')
+        e_team = ttk.Entry(scoring_panel, width=20)
+        e_team.grid(row=0, column=1)
+        self.widgets['team'] = e_team
+
         timer_panel = ttk.LabelFrame(top_frame, text='Timer & Actions')
         timer_panel.pack(side=tk.RIGHT, fill=tk.X, padx=5, pady=5)
         self.timer_label = ttk.Label(timer_panel, text='Duration: 0.00s')
@@ -160,6 +167,30 @@ class MatchRecorder(tk.Tk):
         canv.bind('<Button-1>', lambda e:self.on_click(e,'shot_location'))
         canv.bind('<Button-3>', lambda e:self.on_click(e,'pass_location'))
         canv.bind('<Button-2>', lambda e:self.on_click(e,'gk_location'))
+
+        # Instructions below the pitch
+        instructions_panel = ttk.LabelFrame(center_frame, text='How to Use')
+        instructions_panel.pack(fill=tk.X, padx=5, pady=(5, 0))
+
+        instructions_text = (
+            "• Left-click on the pitch sets the shot location.\n"
+            "• Middle-click sets the goalkeeper location.\n"
+            "• Right-click sets the key pass location.\n\n"
+            "• Use the timer at the top-right to measure possession duration.\n"
+            "• After filling in the data, click 'Add Event' to register the shot.\n"
+            "• Click 'Save CSV' to store all recorded shots in the file.\n\n"
+            "Reference tables on the right display the ID values for:\n"
+            "shot type, technique, outcome, body part, and more."
+        )
+
+        label = ttk.Label(
+            instructions_panel,
+            text=instructions_text,
+            justify='left',
+            anchor='w',
+            font=('Arial', 10)
+        )
+        label.pack(fill=tk.X, padx=10, pady=5)
 
         # Bottom: Events Table
         table_panel = ttk.LabelFrame(bottom_frame, text='Recorded Events')
@@ -247,7 +278,7 @@ class MatchRecorder(tk.Tk):
                 else:
                     v = w.get()
                     rec[k] = parse_xy(v) if k.endswith('_location') else (
-                        v if k in ['match', 'period'] else (float(v) if '.' in v else int(v)))
+                        v if k in ['match', 'team'] else (float(v) if '.' in v else int(v)))
             # Append record
             self.df = pd.concat([self.df, pd.DataFrame([rec])], ignore_index=True)
             self.tree.insert('', tk.END, values=list(rec.values()))
