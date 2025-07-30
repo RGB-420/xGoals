@@ -27,6 +27,8 @@ key_pass_body_part_dict = {37: 'Head',38: 'Left Foot', 40: 'Right Foot', 68: 'Dr
 # Parse coordinate string
 def parse_xy(text):
     try:
+        if ',' not in text:
+            return None
         x, y = text.split(',')
         return float(x.strip()), float(y.strip())
     except:
@@ -58,10 +60,7 @@ class MatchRecorder(tk.Tk):
         self.protocol('WM_DELETE_WINDOW', self.on_close)
 
         # DataFrame
-        if os.path.exists(data_file):
-            self.df = pd.read_csv(data_file)
-        else:
-            self.df = pd.DataFrame(columns=columns)
+        self.df = pd.DataFrame(columns=columns)
 
         # Variables
         self.widgets = {}
@@ -276,15 +275,27 @@ class MatchRecorder(tk.Tk):
                 if isinstance(w, tk.BooleanVar):
                     rec[k] = w.get()
                 else:
-                    v = w.get()
-                    rec[k] = parse_xy(v) if k.endswith('_location') else (
-                        v if k in ['match', 'team'] else (float(v) if '.' in v else int(v)))
-            # Append record
+                    v = w.get().replace(')', '').replace('(', '').strip()
+                    if k.endswith('_location'):
+                        parsed = parse_xy(v)
+                        if parsed is None:
+                            raise ValueError(f"Invalid coordinates for {k}: {v}")
+                        rec[k] = f"{parsed[0]:.2f},{parsed[1]:.2f}"
+                    elif k in ['match', 'team']:
+                        rec[k] = v
+                    elif v.strip() == '':
+                        rec[k] = None
+                    elif '.' in v:
+                        rec[k] = float(v)
+                    else:
+                        rec[k] = int(v)
+
+            # Agregar al DataFrame
             self.df = pd.concat([self.df, pd.DataFrame([rec])], ignore_index=True)
             self.tree.insert('', tk.END, values=list(rec.values()))
-            # Confirmation
             messagebox.showinfo('Success', 'Event added successfully!')
-            # Clear fields
+
+            # Limpiar campos
             for key, widget in self.widgets.items():
                 if key == "match":
                     continue
@@ -294,14 +305,34 @@ class MatchRecorder(tk.Tk):
                     widget.delete(0, tk.END)
         except Exception as e:
             messagebox.showerror('Error', f'Failed to add: {e}')
-            messagebox.showerror('Error',f'Failed to add: {e}')
 
     def load_table(self):
         for _,r in self.df.iterrows(): self.tree.insert('',tk.END,values=list(r))
+
     def save_csv(self):
-        self.df.to_csv(data_file,index=False); messagebox.showinfo('Saved','Events saved!')
+        try:
+            # Asegura que los datos a guardar tengan solo las columnas definidas
+            clean_df = self.df[[c for c in columns if c in self.df.columns]].copy()
+
+            # Backup si el archivo existe
+            if os.path.exists(data_file):
+                timestamp = time.strftime("%Y%m%d-%H%M%S")
+                backup_file = f"{data_file}.{timestamp}.bak"
+                os.makedirs(os.path.dirname(data_file), exist_ok=True)
+                pd.read_csv(data_file).to_csv(backup_file, index=False)
+
+            # Escribir en modo append
+            write_header = not os.path.exists(data_file)
+            clean_df.to_csv(data_file, mode='a', header=write_header, index=False)
+
+            messagebox.showinfo('Saved', f'Events appended!\nBackup created.')
+        except Exception as e:
+            messagebox.showerror('Save Error', f'Could not save CSV: {e}')
+
+
     def on_close(self):
-        if messagebox.askokcancel('Quit','Close application?'):
+        if messagebox.askokcancel('Quit', 'Close application?'):
+            self.save_csv()
             self.destroy()
 
 if __name__=='__main__':
