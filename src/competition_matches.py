@@ -93,7 +93,7 @@ if __name__ == "__main__":
     }
     EVENTS_FOLDER = Path("open-data-master/data/events")
     MATCHES_ROOT = Path("open-data-master/data/matches")
-    OUTPUT_CSV = Path("output/csv/complete_matches.csv")
+    OUTPUT_CSV = Path("/output/csv/complete_matches.csv")
 
     # 1. Filtrar partidos válidos
     valid_df = get_valid_matches(EVENTS_FOLDER, REQUIRED_FIELDS)

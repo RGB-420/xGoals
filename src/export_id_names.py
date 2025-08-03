@@ -12,7 +12,7 @@ import logging
 # Carpeta con archivos JSON de eventos
 EVENTS_FOLDER = Path("open-data-master/data/events")
 # Ruta de salida del Excel
-OUTPUT_FILE = Path("utils/id_name_mappings.xlsx")
+OUTPUT_FILE = Path("/utils/id_name_mappings.xlsx")
 # Nivel de logging (INFO o DEBUG)
 LOG_LEVEL = logging.INFO
 # ---------------------------
