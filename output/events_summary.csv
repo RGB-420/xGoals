@@ -1,0 +1,38 @@
+match,team,xG_pred,period,minute,second,shot_location,is_goal
+Sant Just - Can Vidalet,Can Vidalet,0.14729215,1,16,32,"110.4, 26.44",0
+Sant Just - Can Vidalet,Can Vidalet,0.037993267,1,16,41,"98.74, 47.38",1
+Sant Just - Can Vidalet,Sant Just,0.0149914725,1,30,23,"93.94, 65.92",0
+Sant Just - Can Vidalet,Can Vidalet,0.020924278,1,39,58,"90.17, 35.02",0
+Sant Just - Can Vidalet,Can Vidalet,0.10657431,1,44,22,"99.77, 51.5",0
+Sant Just - Can Vidalet,Sant Just,0.026602207,1,47,41,"102.51, 25.06",0
+Sant Just - Can Vidalet,Sant Just,0.014874461,2,51,17,"92.91,17.85",0
+Sant Just - Can Vidalet,Can Vidalet,0.055223424,2,55,25,"112.11,40.52",0
+Sant Just - Can Vidalet,Sant Just,0.05756409,2,56,28,"108.00,31.24",0
+Sant Just - Can Vidalet,Can Vidalet,0.10146067,2,82,2,"103.89,44.98",0
+Sant Just - Can Vidalet,Sant Just,0.015089719,2,85,4,"96.00,18.20",0
+Sant Just - Can Vidalet,Can Vidalet,0.017262537,2,94,48,"87.09,43.61",0
+Can Vidalet - Sant Just,Can Vidalet,0.36318415,1,6,39,"113.14,44.98",1
+Can Vidalet - Sant Just,Sant Just,0.022086289,1,10,58,"94.63,54.59",0
+Can Vidalet - Sant Just,Sant Just,0.0149300555,1,12,36,"87.77,24.72",0
+Can Vidalet - Sant Just,Sant Just,0.050228976,1,15,9,"104.91,55.28",0
+Can Vidalet - Sant Just,Sant Just,0.021161528,1,15,13,"95.31,38.45",0
+Can Vidalet - Sant Just,Can Vidalet,0.37644023,1,18,32,"116.23,27.81",0
+Can Vidalet - Sant Just,Can Vidalet,0.044468354,1,18,38,"92.91,46.70",0
+Can Vidalet - Sant Just,Sant Just,0.04824206,1,18,55,"99.09,42.23",0
+Can Vidalet - Sant Just,Can Vidalet,0.026467131,1,23,30,"16.80,31.93",0
+Can Vidalet - Sant Just,Can Vidalet,0.19209564,1,25,30,"105.26,43.61",0
+Can Vidalet - Sant Just,Sant Just,0.107099526,1,29,52,"105.60,45.67",0
+Can Vidalet - Sant Just,Sant Just,0.34704795,1,45,38,"113.14,34.33",1
+Can Vidalet - Sant Just,Can Vidalet,0.16251981,1,47,10,"107.66,38.11",0
+Can Vidalet - Sant Just,Sant Just,0.029820334,2,59,21,"97.03,26.78",0
+Can Vidalet - Sant Just,Sant Just,0.04838223,2,61,25,"92.91,49.79",0
+Can Vidalet - Sant Just,Can Vidalet,0.074302636,2,61,37,"109.37,24.38",0
+Can Vidalet - Sant Just,Can Vidalet,0.0534118,2,69,58,"101.14,35.71",0
+Can Vidalet - Sant Just,Can Vidalet,0.078534566,2,72,1,"93.60,38.11",0
+Can Vidalet - Sant Just,Can Vidalet,0.009404217,2,74,34,"95.31,13.05",0
+Can Vidalet - Sant Just,Sant Just,0.526864,2,85,14,"111.77,54.94",1
+Can Vidalet - Sant Just,Sant Just,0.22062196,2,87,56,"111.43,24.72",0
+Can Vidalet - Sant Just,Can Vidalet,0.12524746,2,90,48,"112.46,40.52",0
+Can Vidalet - Sant Just,Can Vidalet,0.19712855,2,92,1,"108.34,54.94",0
+Can Vidalet - Sant Just,Can Vidalet,0.6680289,2,92,2,"118.29,41.89",1
+Can Vidalet - Sant Just,Can Vidalet,0.038277987,2,97,14,"93.94,27.12",0
