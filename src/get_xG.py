@@ -155,13 +155,52 @@ proba[mask_pen] = 0.75
 
 df['xG_pred'] = proba
 
+# --- Add (0,0) at start and (0, common_end_minute+1) at end for each team ---
+# Ensures that both teams end their xG line at the same time for proper Tableau alignment
+
+# Label original events
+df['event'] = 'Shot'
+
+# Start rows: one per team per match, at time 0
+unique_match_teams = df[['match', 'team']].drop_duplicates()
+start_rows = unique_match_teams.copy()
+start_rows['xG_pred'] = 0.0
+start_rows['period'] = 1
+start_rows['minute'] = 0
+start_rows['second'] = 0
+start_rows['shot_location'] = ''
+start_rows['is_goal'] = 0
+start_rows['event'] = 'Start'
+
+# End rows: get max minute per match, then apply to both teams in that match
+# Step 1: Get max minute per match
+max_minute_per_match = df.groupby('match')['minute'].max().reset_index()
+max_minute_per_match['minute'] = max_minute_per_match['minute'] + 1  # Add 1 to extend
+
+# Step 2: Join with each team in the match
+end_rows = df[['match', 'team']].drop_duplicates().merge(max_minute_per_match, on='match')
+end_rows['period'] = 2
+end_rows['second'] = 0
+end_rows['xG_pred'] = 0.0
+end_rows['shot_location'] = ''
+end_rows['is_goal'] = 0
+end_rows['event'] = 'End'
+
+# Combine all
+df = pd.concat([start_rows, df, end_rows], ignore_index=True)
+
+# Sort to prepare for plotting
+df = df.sort_values(by=['match', 'team', 'period', 'minute', 'second']).reset_index(drop=True)
+
+df['xG_pred'] = df['xG_pred'].astype(float)
+
 # --- Save Full Output ---
-df.to_csv(OUTPUT_CSV, index=False)
+df.to_csv(OUTPUT_CSV, index=False, float_format='%.5f', decimal='.')
 print(f"Predictions saved to {OUTPUT_CSV}")
 
 # --- Save Selected Columns Only ---
 SELECTED_COLUMNS = ['match', 'team', 'xG_pred', 'period', 'minute', 'second', 'shot_location', 'is_goal']  # Customize as needed
 SUMMARY_CSV = 'output/events_summary.csv'
 
-df[SELECTED_COLUMNS].to_csv(SUMMARY_CSV, index=False)
+df[SELECTED_COLUMNS].to_csv(SUMMARY_CSV, index=False, float_format='%.5f', decimal='.', sep=',', encoding='utf-8')
 print(f"Summary saved to {SUMMARY_CSV}")
