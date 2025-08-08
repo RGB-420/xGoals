@@ -7,7 +7,7 @@ import time
 
 # Columns for data (removed key_pass_length and key_pass_angle)
 columns = [
-    'match', 'team', 'period', 'minute', 'second', 'shot_location', 'pass_location', 'gk_location',
+    'match', 'team','player', 'period', 'minute', 'second', 'shot_location', 'pass_location', 'gk_location',
     'under_pressure', 'play_pattern_id', 'shot_key_pass_id', 'shot_type_id',
     'shot_technique_id', 'shot_outcome_id', 'shot_body_part_id', 'players_in_range',
     'shot_first_time', 'shot_aerial_won', 'key_pass_height_id', 'key_pass_body_part_id',
@@ -112,6 +112,13 @@ class MatchRecorder(tk.Tk):
         e_team = ttk.Entry(scoring_panel, width=20)
         e_team.grid(row=0, column=1)
         self.widgets['team'] = e_team
+
+        player_panel = ttk.LabelFrame(top_frame, text='Scoring Player')
+        player_panel.pack(side=tk.LEFT, fill=tk.X, padx=5, pady=5)
+        ttk.Label(player_panel, text='Player').grid(row=0, column=0, sticky='w')
+        e_player = ttk.Entry(player_panel, width=20)
+        e_player.grid(row=0, column=2)
+        self.widgets['player'] = e_player
 
         timer_panel = ttk.LabelFrame(top_frame, text='Timer & Actions')
         timer_panel.pack(side=tk.RIGHT, fill=tk.X, padx=5, pady=5)
@@ -281,7 +288,7 @@ class MatchRecorder(tk.Tk):
                         if parsed is None:
                             raise ValueError(f"Invalid coordinates for {k}: {v}")
                         rec[k] = f"{parsed[0]:.2f},{parsed[1]:.2f}"
-                    elif k in ['match', 'team']:
+                    elif k in ['match', 'team', 'player']:
                         rec[k] = v
                     elif v.strip() == '':
                         rec[k] = None
