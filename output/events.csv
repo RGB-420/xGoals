@@ -1,38 +1,38 @@
-match,team,period,minute,second,shot_location,pass_location,gk_location,under_pressure,play_pattern_id,shot_key_pass_id,shot_type_id,shot_technique_id,shot_outcome_id,shot_body_part_id,players_in_range,shot_first_time,shot_aerial_won,key_pass_height_id,key_pass_body_part_id,key_under_pressure,key_pass_switch,key_pass_cross,key_pass_cut_back,possession_duration
-Sant Just - Can Vidalet,Can Vidalet,1,16,32,"110.4, 26.44",,"114.86, 33.65",False,6,False,87,93,100,40,2,False,False,0,0,False,False,False,False,1.63
-Sant Just - Can Vidalet,Can Vidalet,1,16,41,"98.74, 47.38","103.89, 52.19","118.63, 40.86",False,1,True,87,93,97,38,4,False,False,1,38,False,False,False,False,4.4
-Sant Just - Can Vidalet,Sant Just,1,30,23,"93.94, 65.92",,"118.29, 42.92",False,3,False,62,93,98,38,3,True,False,0,0,False,False,False,False,0.33
-Sant Just - Can Vidalet,Can Vidalet,1,39,58,"90.17, 35.02",,"117.6, 38.8",False,1,False,87,95,98,40,3,False,False,0,0,False,False,False,False,1.22
-Sant Just - Can Vidalet,Can Vidalet,1,44,22,"99.77, 51.5",,"117.26, 37.08",False,6,False,87,95,96,38,2,False,False,0,0,False,False,False,False,1.17
-Sant Just - Can Vidalet,Sant Just,1,47,41,"102.51, 25.06",,"118.97, 38.11",False,4,False,87,95,98,38,5,True,False,0,0,False,False,False,False,0.36
-Sant Just - Can Vidalet,Sant Just,2,51,17,"92.91,17.85",,"118.63,38.45",False,3,False,62,93,96,40,4,True,False,0,0,False,False,False,False,0.27
-Sant Just - Can Vidalet,Can Vidalet,2,55,25,"112.11,40.52","119.31,0.34","118.97,39.83",True,2,True,87,93,98,37,3,True,True,3,40,False,False,True,False,0.96
-Sant Just - Can Vidalet,Sant Just,2,56,28,"108.00,31.24","110.40,69.70","118.29,37.77",False,1,True,87,94,98,40,4,True,False,3,38,False,False,True,False,7.58
-Sant Just - Can Vidalet,Can Vidalet,2,82,2,"103.89,44.98",,"117.60,40.86",True,6,False,87,93,98,40,2,False,False,0,0,False,False,False,False,14.08
-Sant Just - Can Vidalet,Sant Just,2,85,4,"96.00,18.20",,"117.94,39.48",False,3,False,62,93,98,40,6,True,False,0,0,False,False,False,False,0.25
-Sant Just - Can Vidalet,Can Vidalet,2,94,48,"87.09,43.61",,"118.97,40.52",False,3,False,62,93,96,38,6,True,False,0,0,False,False,False,False,0.61
-Can Vidalet - Sant Just,Can Vidalet,1,6,39,"113.14,44.98","110.74,18.20","118.97,40.86",False,1,True,87,91,97,40,1,True,False,2,40,False,False,True,False,12.22
-Can Vidalet - Sant Just,Sant Just,1,10,58,"94.63,54.59",,"117.94,42.58",False,4,False,87,95,98,40,5,False,False,0,0,False,False,False,False,0.94
-Can Vidalet - Sant Just,Sant Just,1,12,36,"87.77,24.72",,"118.29,39.83",False,3,False,62,93,116,40,4,True,False,0,0,False,False,False,False,0.21
-Can Vidalet - Sant Just,Sant Just,1,15,9,"104.91,55.28","111.43,50.13","118.29,42.23",False,1,True,87,93,96,40,4,True,False,1,40,True,False,False,False,10.06
-Can Vidalet - Sant Just,Sant Just,1,15,13,"95.31,38.45","97.37,51.50","118.97,41.20",False,1,True,87,93,98,38,5,False,False,1,40,False,False,False,False,12.69
-Can Vidalet - Sant Just,Can Vidalet,1,18,32,"116.23,27.81",,"118.29,37.08",False,6,False,87,93,98,38,1,False,False,0,0,False,False,False,False,9.81
-Can Vidalet - Sant Just,Can Vidalet,1,18,38,"92.91,46.70",,"117.60,41.20",False,1,False,87,93,100,40,4,False,False,0,0,False,False,False,False,1.14
-Can Vidalet - Sant Just,Sant Just,1,18,55,"99.09,42.23","105.94,28.15","118.63,39.48",False,6,True,87,93,100,38,4,True,False,1,40,True,False,False,False,11.77
-Can Vidalet - Sant Just,Can Vidalet,1,23,30,"16.80,31.93","62.06,35.02","6.86,37.08",False,1,True,87,95,100,40,1,True,False,2,40,False,False,False,False,80.05
-Can Vidalet - Sant Just,Can Vidalet,1,25,30,"105.26,43.61","32.57,55.62","111.43,43.61",False,1,True,87,93,100,40,1,True,False,2,40,False,False,False,False,1.6
-Can Vidalet - Sant Just,Sant Just,1,29,52,"105.60,45.67",,"117.94,41.20",True,1,False,87,93,99,40,3,False,False,0,0,False,False,False,False,19.58
-Can Vidalet - Sant Just,Sant Just,1,45,38,"113.14,34.33","115.89,59.06","118.97,40.52",False,1,True,87,93,97,38,1,True,False,1,40,False,False,False,True,36.63
-Can Vidalet - Sant Just,Can Vidalet,1,47,10,"107.66,38.11","115.89,55.97","118.97,41.55",False,1,True,87,93,100,40,2,True,False,1,40,False,False,False,True,27.65
-Can Vidalet - Sant Just,Sant Just,2,59,21,"97.03,26.78",,"117.94,39.14",False,1,False,87,93,100,38,2,False,False,0,0,False,False,False,False,11.7
-Can Vidalet - Sant Just,Sant Just,2,61,25,"92.91,49.79",,"118.63,40.86",False,2,False,87,93,96,38,5,True,False,0,0,False,False,False,False,1.03
-Can Vidalet - Sant Just,Can Vidalet,2,61,37,"109.37,24.38","91.20,49.10","117.94,35.36",False,6,True,87,93,100,38,2,False,False,1,40,False,False,False,False,10.16
-Can Vidalet - Sant Just,Can Vidalet,2,69,58,"101.14,35.71","33.26,54.59","118.29,38.45",False,6,True,87,93,96,40,3,False,False,3,38,False,True,False,False,11.19
-Can Vidalet - Sant Just,Can Vidalet,2,72,1,"93.60,38.11",,"117.94,39.14",False,2,False,87,93,98,38,10,False,False,0,0,False,False,False,False,1.16
-Can Vidalet - Sant Just,Can Vidalet,2,74,34,"95.31,13.05",,"117.60,37.42",False,1,False,87,93,98,40,4,False,False,0,0,False,False,False,False,18.48
-Can Vidalet - Sant Just,Sant Just,2,85,14,"111.77,54.94","43.20,75.88","117.26,45.67",False,6,True,87,92,97,40,1,False,False,1,40,False,False,False,False,6.84
-Can Vidalet - Sant Just,Sant Just,2,87,56,"111.43,24.72",,"118.63,37.42",False,6,False,87,93,100,38,1,False,False,0,0,False,False,False,False,8.22
-Can Vidalet - Sant Just,Can Vidalet,2,90,48,"112.46,40.52","115.20,66.61","118.29,41.89",False,1,True,87,93,98,37,2,True,False,3,40,False,False,True,False,36.26
-Can Vidalet - Sant Just,Can Vidalet,2,92,1,"108.34,54.94","64.11,57.34","109.71,53.22",False,1,True,87,93,98,38,1,True,False,2,40,False,False,False,False,13.9
-Can Vidalet - Sant Just,Can Vidalet,2,92,2,"118.29,41.89",,"106.97,62.49",True,1,False,87,93,97,70,0,True,False,0,0,False,False,False,False,0.25
-Can Vidalet - Sant Just,Can Vidalet,2,97,14,"93.94,27.12",,"117.94,39.48",False,1,False,87,93,98,38,5,False,False,0,0,False,False,False,False,1.92
+match,team,player,period,minute,second,shot_location,pass_location,gk_location,under_pressure,play_pattern_id,shot_key_pass_id,shot_type_id,shot_technique_id,shot_outcome_id,shot_body_part_id,players_in_range,shot_first_time,shot_aerial_won,key_pass_height_id,key_pass_body_part_id,key_under_pressure,key_pass_switch,key_pass_cross,key_pass_cut_back,possession_duration
+Sant Just - Can Vidalet,Can Vidalet,0,1,16,32,"110.4, 26.44",,"114.86, 33.65",False,6,False,87,93,100,40,2,False,False,0,0,False,False,False,False,1.63
+Sant Just - Can Vidalet,Can Vidalet,0,1,16,41,"98.74, 47.38","103.89, 52.19","118.63, 40.86",False,1,True,87,93,97,38,4,False,False,1,38,False,False,False,False,4.4
+Sant Just - Can Vidalet,Sant Just,0,1,30,23,"93.94, 65.92",,"118.29, 42.92",False,3,False,62,93,98,38,3,True,False,0,0,False,False,False,False,0.33
+Sant Just - Can Vidalet,Can Vidalet,0,1,39,58,"90.17, 35.02",,"117.6, 38.8",False,1,False,87,95,98,40,3,False,False,0,0,False,False,False,False,1.22
+Sant Just - Can Vidalet,Can Vidalet,0,1,44,22,"99.77, 51.5",,"117.26, 37.08",False,6,False,87,95,96,38,2,False,False,0,0,False,False,False,False,1.17
+Sant Just - Can Vidalet,Sant Just,0,1,47,41,"102.51, 25.06",,"118.97, 38.11",False,4,False,87,95,98,38,5,True,False,0,0,False,False,False,False,0.36
+Sant Just - Can Vidalet,Sant Just,0,2,51,17,"92.91,17.85",,"118.63,38.45",False,3,False,62,93,96,40,4,True,False,0,0,False,False,False,False,0.27
+Sant Just - Can Vidalet,Can Vidalet,0,2,55,25,"112.11,40.52","119.31,0.34","118.97,39.83",True,2,True,87,93,98,37,3,True,True,3,40,False,False,True,False,0.96
+Sant Just - Can Vidalet,Sant Just,0,2,56,28,"108.00,31.24","110.40,69.70","118.29,37.77",False,1,True,87,94,98,40,4,True,False,3,38,False,False,True,False,7.58
+Sant Just - Can Vidalet,Can Vidalet,0,2,82,2,"103.89,44.98",,"117.60,40.86",True,6,False,87,93,98,40,2,False,False,0,0,False,False,False,False,14.08
+Sant Just - Can Vidalet,Sant Just,0,2,85,4,"96.00,18.20",,"117.94,39.48",False,3,False,62,93,98,40,6,True,False,0,0,False,False,False,False,0.25
+Sant Just - Can Vidalet,Can Vidalet,0,2,94,48,"87.09,43.61",,"118.97,40.52",False,3,False,62,93,96,38,6,True,False,0,0,False,False,False,False,0.61
+Can Vidalet - Sant Just,Can Vidalet,0,1,6,39,"113.14,44.98","110.74,18.20","118.97,40.86",False,1,True,87,91,97,40,1,True,False,2,40,False,False,True,False,12.22
+Can Vidalet - Sant Just,Sant Just,0,1,10,58,"94.63,54.59",,"117.94,42.58",False,4,False,87,95,98,40,5,False,False,0,0,False,False,False,False,0.94
+Can Vidalet - Sant Just,Sant Just,0,1,12,36,"87.77,24.72",,"118.29,39.83",False,3,False,62,93,116,40,4,True,False,0,0,False,False,False,False,0.21
+Can Vidalet - Sant Just,Sant Just,0,1,15,9,"104.91,55.28","111.43,50.13","118.29,42.23",False,1,True,87,93,96,40,4,True,False,1,40,True,False,False,False,10.06
+Can Vidalet - Sant Just,Sant Just,0,1,15,13,"95.31,38.45","97.37,51.50","118.97,41.20",False,1,True,87,93,98,38,5,False,False,1,40,False,False,False,False,12.69
+Can Vidalet - Sant Just,Can Vidalet,0,1,18,32,"116.23,27.81",,"118.29,37.08",False,6,False,87,93,98,38,1,False,False,0,0,False,False,False,False,9.81
+Can Vidalet - Sant Just,Can Vidalet,0,1,18,38,"92.91,46.70",,"117.60,41.20",False,1,False,87,93,100,40,4,False,False,0,0,False,False,False,False,1.14
+Can Vidalet - Sant Just,Sant Just,0,1,18,55,"99.09,42.23","105.94,28.15","118.63,39.48",False,6,True,87,93,100,38,4,True,False,1,40,True,False,False,False,11.77
+Can Vidalet - Sant Just,Can Vidalet,0,1,23,30,"104.23,44.29","62.06,35.02","6.86,37.08",False,1,True,87,95,100,40,1,True,False,2,40,False,False,False,False,80.05
+Can Vidalet - Sant Just,Can Vidalet,0,1,25,30,"105.26,43.61","32.57,55.62","111.43,43.61",False,1,True,87,93,100,40,1,True,False,2,40,False,False,False,False,1.6
+Can Vidalet - Sant Just,Sant Just,0,1,29,52,"105.60,45.67",,"117.94,41.20",True,1,False,87,93,99,40,3,False,False,0,0,False,False,False,False,19.58
+Can Vidalet - Sant Just,Sant Just,0,1,45,38,"113.14,34.33","115.89,59.06","118.97,40.52",False,1,True,87,93,97,38,1,True,False,1,40,False,False,False,True,36.63
+Can Vidalet - Sant Just,Can Vidalet,0,1,47,10,"107.66,38.11","115.89,55.97","118.97,41.55",False,1,True,87,93,100,40,2,True,False,1,40,False,False,False,True,27.65
+Can Vidalet - Sant Just,Sant Just,0,2,59,21,"97.03,26.78",,"117.94,39.14",False,1,False,87,93,100,38,2,False,False,0,0,False,False,False,False,11.7
+Can Vidalet - Sant Just,Sant Just,0,2,61,25,"92.91,49.79",,"118.63,40.86",False,2,False,87,93,96,38,5,True,False,0,0,False,False,False,False,1.03
+Can Vidalet - Sant Just,Can Vidalet,0,2,61,37,"109.37,24.38","91.20,49.10","117.94,35.36",False,6,True,87,93,100,38,2,False,False,1,40,False,False,False,False,10.16
+Can Vidalet - Sant Just,Can Vidalet,0,2,69,58,"101.14,35.71","33.26,54.59","118.29,38.45",False,6,True,87,93,96,40,3,False,False,3,38,False,True,False,False,11.19
+Can Vidalet - Sant Just,Can Vidalet,0,2,72,1,"93.60,38.11",,"117.94,39.14",False,2,False,87,93,98,38,10,False,False,0,0,False,False,False,False,1.16
+Can Vidalet - Sant Just,Can Vidalet,0,2,74,34,"95.31,13.05",,"117.60,37.42",False,1,False,87,93,98,40,4,False,False,0,0,False,False,False,False,18.48
+Can Vidalet - Sant Just,Sant Just,0,2,85,14,"111.77,54.94","43.20,75.88","117.26,45.67",False,6,True,87,92,97,40,1,False,False,1,40,False,False,False,False,6.84
+Can Vidalet - Sant Just,Sant Just,0,2,87,56,"111.43,24.72",,"118.63,37.42",False,6,False,87,93,100,38,1,False,False,0,0,False,False,False,False,8.22
+Can Vidalet - Sant Just,Can Vidalet,0,2,90,48,"112.46,40.52","115.20,66.61","118.29,41.89",False,1,True,87,93,98,37,2,True,False,3,40,False,False,True,False,36.26
+Can Vidalet - Sant Just,Can Vidalet,0,2,92,1,"108.34,54.94","64.11,57.34","109.71,53.22",False,1,True,87,93,98,38,1,True,False,2,40,False,False,False,False,13.9
+Can Vidalet - Sant Just,Can Vidalet,0,2,92,2,"118.29,41.89",,"106.97,62.49",True,1,False,87,93,97,70,0,True,False,0,0,False,False,False,False,0.25
+Can Vidalet - Sant Just,Can Vidalet,0,2,97,14,"93.94,27.12",,"117.94,39.48",False,1,False,87,93,98,38,5,False,False,0,0,False,False,False,False,1.92
