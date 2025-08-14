@@ -26,21 +26,6 @@ def safe_point_coords(loc):
     except Exception:
         return None
 
-def count_players_in_triangle(freeze_frame, shot_vertex):
-    players = parse_if_str(freeze_frame)
-    v1 = safe_point_coords(shot_vertex)
-    if not isinstance(players, list) or v1 is None:
-        return 0
-    tri = Polygon([v1, TRIANGLE_VERTEX_2, TRIANGLE_VERTEX_3])
-    count = 0
-    for p in players:
-        loc = safe_point_coords(p.get('location'))
-        if loc:
-            pt = Point(*loc)
-            if pt.within(tri) or pt.touches(tri):
-                count += 1
-    return count
-
 def keeper_position_score(shot_x, shot_y, keeper_x, keeper_y):
     # Basic validation
     if any(v is None for v in (shot_x, shot_y, keeper_x, keeper_y)):
@@ -165,6 +150,7 @@ df['event'] = 'Shot'
 unique_match_teams = df[['match', 'team']].drop_duplicates()
 start_rows = unique_match_teams.copy()
 start_rows['xG_pred'] = 0.0
+start_rows['player'] = 0
 start_rows['period'] = 1
 start_rows['minute'] = 0
 start_rows['second'] = 0
@@ -179,6 +165,7 @@ max_minute_per_match['minute'] = max_minute_per_match['minute'] + 1  # Add 1 to 
 
 # Step 2: Join with each team in the match
 end_rows = df[['match', 'team']].drop_duplicates().merge(max_minute_per_match, on='match')
+end_rows['player'] = 0
 end_rows['period'] = 2
 end_rows['second'] = 0
 end_rows['xG_pred'] = 0.0
@@ -197,9 +184,9 @@ df['xG_pred'] = df['xG_pred'].astype(float)
 # --- Save Full Output ---
 df.to_csv(OUTPUT_CSV, index=False, float_format='%.5f', decimal='.')
 print(f"Predictions saved to {OUTPUT_CSV}")
-
+print(df.head())
 # --- Save Selected Columns Only ---
-SELECTED_COLUMNS = ['match', 'team', 'xG_pred', 'period', 'minute', 'second', 'shot_location', 'is_goal']  # Customize as needed
+SELECTED_COLUMNS = ['match', 'team', 'player', 'xG_pred', 'period', 'minute', 'second', 'shot_location', 'is_goal']  # Customize as needed
 SUMMARY_CSV = 'output/events_summary.csv'
 
 df[SELECTED_COLUMNS].to_csv(SUMMARY_CSV, index=False, float_format='%.5f', decimal='.', sep=',', encoding='utf-8')
