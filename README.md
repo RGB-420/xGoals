@@ -74,7 +74,7 @@ cd xGoals
 2. **Download StatBomb Open Data**  
    Get the full dataset from:  
    👉 https://github.com/statsbomb/open-data  
-   and place the folder inside the project directory as: `open-data`
+   and place the folder inside the project directory as: `open-data-master`
 
 3. **Run the scripts to prepare the data:**
 
