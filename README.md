@@ -43,7 +43,7 @@ ChatGPT_xG/
 ├── utils/                   # Auxiliary resources
 │   ├── id_name_mappings.xlsx
 │   ├── soccer_field.png
-│   └── soccer_field_transparente.png
+│   └── soccer_field_transparent.png
 ```
 
 ---
@@ -126,6 +126,9 @@ Field interaction:
 
 ## 📊 Tableau Visualization
 
+The file `utils/soccer_field_transparente.png` is specifically designed to be used as a background image in Tableau dashboards. It aligns with the coordinate system used in the exported shot data.
+
+
 The generated CSVs (`complete_matches.csv`, `events_with_xG.csv`, etc.) are formatted and ready to be used in **Tableau** dashboards for advanced performance analysis.
 
 ---
@@ -148,3 +151,11 @@ Developed by [RGB-420](https://github.com/RGB-420)
 For support or questions, feel free to open an issue.
 
 ---
+
+
+---
+
+## 📚 Data Source
+
+This project uses publicly available football event data from [StatsBomb Open Data](https://github.com/statsbomb/open-data), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
